@@ -1,0 +1,20 @@
+---
+- name: Build and run Docker container
+  hosts: local
+  become: yes
+  tasks:
+    - name: Build Docker image
+      docker_image:
+        name: web-db-app
+        build:
+          path: .
+
+    - name: Run Docker container
+      docker_container:
+        name: webdb
+        image: web-db-app
+        state: started
+        ports:
+          - "80:80"
+          - "3306:3306"
+
